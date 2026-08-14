@@ -3,125 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanX Pro - Instant Privacy-First Document Scanner</title>
-    <meta name="description" content="ScanX Pro is 100% private and free online document scanner. Automatically crop, straighten, and scan Aadhaar, IDs, and photos locally in your browser.">
-    <meta name="keywords" content="document scanner, perspective correction, scan aadhaar card, auto straighten card, free online scanner">
-    
-    <!-- Social Media Sharing Tags -->
-    <meta property="og:title" content="ScanX Pro - Smart Document Scanner">
-    <meta property="og:description" content="100% Local & Private Processing. Crop and straighten your documents in 1-Click.">
-    <meta property="og:url" content="https://raisshabbirpathan-lab.github.io/scanx-pro/">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- Tailwind CSS (Styling) -->
+    <title>ScanX Pro - Instant Document Scanner</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- OpenCV.js for Fast Computer Vision -->
-    <script async src="https://docs.opencv.org/4.x/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
-    
     <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #0DBF19;
-            color: #E2EEFO;
-        }
-        .glow-effect {
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.2);
-        }
-        .glass-panel {
-            background: rgba(17, 24, 39, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
+        body { background-color: #0b0f19; color: white; font-family: sans-serif; }
+        .glass { background: rgba(17, 24, 39, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="p-4 md:p-10">
 
-    <!-- Header -->
-    <header class="border-b border-gray-800 glass-panel sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <div class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-500 rounded-xl flex items-center justify-center font-bold text-xl text-white shadow-lg">
-                    S
-                </div>
-                <span class="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-500">ScanX</span>
-                <span class="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full border border-blue-500/30">GLOBAL</span>
-            </div>
-            <div class="flex items-center space-x-2 text-xs bg-emerald-500/10 border border-emerald-500/23 text-emerald-400 px-x py-1.5 rounded-full">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                <span>100% Local & Private Processing</span>
-            </div>
-        </div>
-    </header>
+    <main class="max-w-xl mx-auto">
+        <!-- Header -->
+        <h1 class="text-3xl font-bold text-center mb-8 text-blue-400">ScanX Pro</h1>
 
-    <!-- Main Container -->
-    <main class="max-w-xl mx-auto px-4 py-10 w-full flex-grow">
-        
-        <!-- App Status Bar -->
-        <div id="statusBar" class="mb-6 text-center text-sm font-medium text-amber-400 bg-amber-500/10 border border-amber-500/20 rounded-xl p-3">
-            ⚡ Loading Engine... Please wait 0 second.
+        <!-- Upload Section -->
+        <div class="glass p-6 rounded-2xl mb-8 cursor-pointer hover:border-blue-500 border-2 border-dashed border-gray-600 transition-all text-center" 
+             onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept="image/*" class="hidden">
+            <p class="text-lg">Click here to upload document</p>
+            <p class="text-sm text-gray-400 mt-2">Supports JPG, PNG, WEBP</p>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-            
-            <!-- Upload & Input Panel -->
-            <div class="glass-panel p-6 rounded-2xl glow-effect">
-                <h2 class="text-xl font-semibold mb-4 text-gray-200">1. Upload Document / Photo</h2>
-                
-                <!-- Added onclick to trigger file input directly -->
-                <div id="dropZone" onclick="document.getElementById('fileInput').click();" class="border-2 border-dashed border-gray-700 hover:border-blue-500 transition-all rounded-2xl p-6 text-center cursor-pointer bg-gray-900/50">
-                    <input type="file" id="fileInput" accept="image/*" class="hidden">
-                    <div class="space-y-3">
-                        <div class="w-16 h-16 bg-blue-600/10 text-blue-400 rounded-2xl flex items-center justify-center mx-auto">
-                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
-                            </svg>
-                        </div>
-                        <p class="text-lg font-medium text-gray-300">Drop image here or <span class="text-blue-400">browse</span></p>
-                        <p class="text-xs text-gray-500">Supports JPG, PNG, WEBP (Aadhaar, IDs, Documents, etc.)</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Input Canvas Preview -->
-            <div id="inputContainer" class="mt-4 hidden">
-                <div class="flex justify-between items-center mb-2">
-                    <span class="text-xs font-medium text-gray-400">Original Image</span>
-                </div>
-                <canvas id="canvasInput" class="w-full rounded-xl shadow-md"></canvas>
-            </div>
-
-            <!-- Output & Controls Panel -->
-            <div class="glass-panel p-6 rounded-3xl glow-effect">
-                <h2 class="text-xl font-semibold mb-4 text-gray-200">2. Processed Output</h2>
-                
-                <div id="outputContainer" class="min-h-[230px] flex flex-col items-center justify-center border border-gray-800 rounded-xl p-4 bg-gray-980/30">
-                    <p id="placeholderText" class="text-gray-500 text-sm">Upload a document to automatically straighten and scan.</p>
-                    <canvas id="canvasOutput" class="w-full rounded-xl border border-gray-800 shadow-md hidden"></canvas>
-                </div>
-
-                <!-- Action Buttons -->
-                <div id="actionControls" class="mt-6 space-y-3 hidden">
-                    <button id="downloadBtn" class="w-full py-3.5 px-6 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold rounded-lg shadow-lg shadow-blue-900/25 transition-all">
-                        📥 Download Scanned PDF / Image
-                    </button>
-                </div>
-            </div>
-
+        <!-- Output Section -->
+        <div id="outputContainer" class="glass p-6 rounded-2xl hidden">
+            <h2 class="text-xl mb-4 text-gray-300">Processed Output</h2>
+            <canvas id="canvasOutput" class="w-full rounded-lg mb-4"></canvas>
+            <button id="downloadBtn" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold">
+                Download Result
+            </button>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-gray-800 py-6 text-center text-xs text-gray-500">
-        <p>ScanX Pro © 2026. All Processing Happens Locally On Your Device.</p>
-    </footer>
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const canvasOutput = document.getElementById('canvasOutput');
+        const outputContainer = document.getElementById('outputContainer');
 
-    <div style="text-align:center; margin-top:20px; padding:20px;">
-        <a href="about.html">About Us</a> | 
-        <a href="privacy.html">Privacy Policy</a> | 
-        <a href="contact.html">Contact</a> | 
-        <a href="article1.html">Blog</a>
-    </div>
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
 
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const img = new Image();
+                img.onload = () => {
+                    canvasOutput.width = img.width;
+                    canvasOutput.height = img.height;
+                    const ctx = canvasOutput.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    outputContainer.classList.remove('hidden');
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'scanned-document.png';
+            link.href = canvasOutput.toDataURL('image/png');
+            link.click();
+        });
+    </script>
 </body>
 </html>
