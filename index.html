@@ -1,69 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ScanX Pro - Instant Document Scanner</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body { background-color: #0b0f19; color: white; font-family: sans-serif; }
-        .glass { background: rgba(17, 24, 39, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DocuSwift Scan</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<style>
+body{
+background:#0f172a;
+color:white;
+font-family:Arial,sans-serif;
+}
+.card{
+background:#1e293b;
+border-radius:20px;
+padding:20px;
+margin-top:20px;
+}
+textarea{
+color:black;
+}
+</style>
 </head>
-<body class="p-4 md:p-10">
 
-    <main class="max-w-xl mx-auto">
-        <!-- Header -->
-        <h1 class="text-3xl font-bold text-center mb-8 text-blue-400">ScanX Pro</h1>
+<body class="p-4">
 
-        <!-- Upload Section -->
-        <div class="glass p-6 rounded-2xl mb-8 cursor-pointer hover:border-blue-500 border-2 border-dashed border-gray-600 transition-all text-center" 
-             onclick="document.getElementById('fileInput').click()">
-            <input type="file" id="fileInput" accept="image/*" class="hidden">
-            <p class="text-lg">Click here to upload document</p>
-            <p class="text-sm text-gray-400 mt-2">Supports JPG, PNG, WEBP</p>
-        </div>
+<div class="max-w-3xl mx-auto">
 
-        <!-- Output Section -->
-        <div id="outputContainer" class="glass p-6 rounded-2xl hidden">
-            <h2 class="text-xl mb-4 text-gray-300">Processed Output</h2>
-            <canvas id="canvasOutput" class="w-full rounded-lg mb-4"></canvas>
-            <button id="downloadBtn" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg font-bold">
-                Download Result
-            </button>
-        </div>
-    </main>
+<h1 class="text-4xl font-bold text-center mb-4">
+DocuSwift Scan
+</h1>
 
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const canvasOutput = document.getElementById('canvasOutput');
-        const outputContainer = document.getElementById('outputContainer');
+<p class="text-center text-gray-300 mb-6">
+Scan, Extract and Convert Documents Securely
+</p>
 
-        fileInput.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
+<div class="card text-center">
 
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                const img = new Image();
-                img.onload = () => {
-                    canvasOutput.width = img.width;
-                    canvasOutput.height = img.height;
-                    const ctx = canvasOutput.getContext('2d');
-                    ctx.drawImage(img, 0, 0);
-                    outputContainer.classList.remove('hidden');
-                };
-                img.src = event.target.result;
-            };
-            reader.readAsDataURL(file);
-        });
+<input
+type="file"
+id="fileInput"
+accept="image/*"
+class="mb-4"
+/>
 
-        document.getElementById('downloadBtn').addEventListener('click', () => {
-            const link = document.createElement('a');
-            link.download = 'scanned-document.png';
-            link.href = canvasOutput.toDataURL('image/png');
-            link.click();
-        });
-    </script>
+<canvas
+id="canvas"
+class="w-full rounded-lg bg-white">
+</canvas>
+
+</div>
+
+<div class="card">
+
+<label>Brightness</label>
+
+<input
+type="range"
+id="brightness"
+min="50"
+max="200"
+value="100"
+class="w-full"
+/>
+
+<label class="mt-4 block">
+Contrast
+</label>
+
+<input
+type="range"
+id="contrast"
+min="50"
+max="200"
+value="100"
+class="w-full"
+/>
+
+<button
+id="applyFilter"
+class="bg-blue-600 px-4 py-2 rounded-lg mt-4 w-full">
+Apply Filter
+</button>
+
+<button
+id="grayBtn"
+class="bg-gray-600 px-4 py-2 rounded-lg mt-4 w-full">
+Grayscale
+</button>
+
+<button
+id="bwBtn"
+class="bg-black px-4 py-2 rounded-lg mt-4 w-full">
+Black & White
+</button>
+    
+</div>
+<div class="card">
+
+<h2 class="text-xl font-bold mb-3">
+OCR Text
+</h2>
+
+<button
+id="extractText"
+class="bg-green-600 px-4 py-2 rounded-lg w-full">
+Extract Text
+</button>
+
+<textarea
+id="ocrResult"
+rows="8"
+class="w-full mt-4 p-3 rounded-lg"
+placeholder="Extracted text will appear here...">
+</textarea>
+
+<button
+id="copyText"
+class="bg-purple-600 px-4 py-2 rounded-lg mt-4 w-full">
+Copy Text
+</button>
+
+<button
+id="pdfBtn"
+class="bg-red-600 px-4 py-2 rounded-lg mt-4 w-full">
+Download PDF
+</button>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const fileInput = document.getElementById('fileInput');
+
+fileInput.addEventListener('change', function(e){
+const file = e.target.files[0];
+if(!file) return;
+
+const img = new Image();
+
+img.onload = function(){
+canvas.width = img.width;
+canvas.height = img.height;
+ctx.drawImage(img,0,0);
+};
+
+img.src = URL.createObjectURL(file);
+});
+
+document.getElementById('extractText').onclick = async () => {
+document.getElementById('ocrResult').value =
+'Reading text...';
+
+const result =
+await Tesseract.recognize(
+canvas.toDataURL(),
+'eng'
+);
+
+document.getElementById('ocrResult').value =
+result.data.text;
+};
+
+document.getElementById('copyText').onclick = () => {
+navigator.clipboard.writeText(
+document.getElementById('ocrResult').value
+);
+alert('Text Copied');
+};
+
+document.getElementById('pdfBtn').onclick = () => {
+const { jsPDF } = window.jspdf;
+
+const pdf = new jsPDF();
+
+pdf.addImage(
+canvas.toDataURL('image/png'),
+'PNG',
+10,
+10,
+180,
+100
+);
+
+pdf.save('document.pdf');
+};
+</script>
+
 </body>
 </html>
