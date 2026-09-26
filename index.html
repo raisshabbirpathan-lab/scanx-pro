@@ -8,14 +8,13 @@
 <title>DocuSwift Scan - Free Online Document Scanner & OCR Tool</title>
 <meta name="description" content="DocuSwift Scan is a free, privacy-focused online document scanner. Extract text with OCR, enhance images, and download as PDF. No registration required.">
 
-<!-- Tailwind CSS -->
+<!-- AdSense Verification Code -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2904888389192222" crossorigin="anonymous"></script>
+
 <script src="https://cdn.tailwindcss.com"></script>
-<!-- Tesseract.js for OCR -->
 <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
-<!-- jsPDF for PDF generation -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -29,7 +28,6 @@
         color: #1e293b;
         scroll-behavior: smooth;
     }
-    /* Tool Specific Styles */
     .tool-card {
         background: #ffffff;
         border-radius: 16px;
@@ -101,7 +99,6 @@
         background: #22c55e;
         transition: width 0.2s;
     }
-    /* FAQ Accordion */
     details {
         background: #ffffff;
         border: 1px solid #e2e8f0;
@@ -129,7 +126,6 @@
 
 <body class="bg-slate-50 text-slate-800">
 
-<!-- ================= NAVIGATION ================= -->
 <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-slate-200">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
@@ -146,7 +142,6 @@
                 <a href="blog.html" class="text-slate-600 hover:text-blue-600 font-medium">Blog</a>
                 <a href="about.html" class="text-slate-600 hover:text-blue-600 font-medium">About Us</a>
             </div>
-            <!-- Mobile Menu Button -->
             <div class="md:hidden flex items-center">
                 <button id="mobileMenuBtn" class="text-slate-600 hover:text-blue-600 focus:outline-none">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -156,7 +151,6 @@
             </div>
         </div>
     </div>
-    <!-- Mobile Menu -->
     <div id="mobileMenu" class="hidden md:hidden bg-white border-t border-slate-200 px-4 pt-2 pb-4 space-y-2">
         <a href="#tool" class="block text-slate-600 hover:text-blue-600 font-medium py-2">Scanner</a>
         <a href="#features" class="block text-slate-600 hover:text-blue-600 font-medium py-2">Features</a>
@@ -167,7 +161,6 @@
     </div>
 </nav>
 
-<!-- ================= HERO SECTION ================= -->
 <header class="bg-gradient-to-br from-blue-50 via-white to-indigo-50 py-16 sm:py-24 border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 text-center">
         <h1 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
@@ -192,7 +185,6 @@
     </div>
 </header>
 
-<!-- ================= MAIN TOOL SECTION ================= -->
 <main class="max-w-3xl mx-auto px-4 py-12" id="tool">
 
     <div class="text-center mb-8">
@@ -200,7 +192,6 @@
         <p class="text-slate-600 mt-2">Upload your document below to get started.</p>
     </div>
 
-    <!-- UPLOAD -->
     <div class="tool-card">
         <h3 class="text-xl font-bold mb-4 flex items-center">📷 Upload Document</h3>
         <input type="file" id="fileInput" accept="image/*">
@@ -208,7 +199,6 @@
         <canvas id="canvas" class="w-full mt-4"></canvas>
     </div>
 
-    <!-- IMAGE CONTROLS -->
     <div class="tool-card">
         <h3 class="text-xl font-bold mb-4 flex items-center">🛠️ Image Enhancement</h3>
         <label class="block mb-2 font-medium text-slate-700">Brightness</label>
@@ -236,7 +226,6 @@
         </div>
     </div>
 
-    <!-- OCR -->
     <div class="tool-card">
         <h3 class="text-xl font-bold mb-4 flex items-center">🔍 OCR Text Extraction</h3>
         
@@ -268,7 +257,6 @@
     </div>
 </main>
 
-<!-- ================= FEATURES SECTION ================= -->
 <section id="features" class="bg-white py-16 border-t border-slate-200">
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-12">
@@ -300,7 +288,6 @@
     </div>
 </section>
 
-<!-- ================= HOW IT WORKS ================= -->
 <section id="how-it-works" class="py-16 bg-slate-50">
     <div class="max-w-4xl mx-auto px-4">
         <div class="text-center mb-12">
@@ -340,7 +327,6 @@
     </div>
 </section>
 
-<!-- ================= FAQ SECTION ================= -->
 <section id="faq" class="py-16 bg-white border-t border-slate-200">
     <div class="max-w-3xl mx-auto px-4">
         <div class="text-center mb-12">
@@ -372,7 +358,6 @@
     </div>
 </section>
 
-<!-- ================= BLOG SECTION ================= -->
 <section id="blog" class="py-16 bg-slate-50 border-t border-slate-200">
     <div class="max-w-6xl mx-auto px-4">
         <div class="text-center mb-12">
@@ -380,7 +365,6 @@
             <p class="text-slate-600 mt-2">Learn how to make the most out of your document scanning.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Article 1 -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
                 <div class="p-6">
                     <span class="text-blue-600 text-sm font-bold">GUIDE</span>
@@ -389,7 +373,6 @@
                     <a href="article1.html" class="text-blue-600 font-semibold hover:underline">Read More →</a>
                 </div>
             </div>
-            <!-- Article 2 -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
                 <div class="p-6">
                     <span class="text-blue-600 text-sm font-bold">TUTORIAL</span>
@@ -398,7 +381,6 @@
                     <a href="article2.html" class="text-blue-600 font-semibold hover:underline">Read More →</a>
                 </div>
             </div>
-            <!-- Article 3 -->
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition">
                 <div class="p-6">
                     <span class="text-blue-600 text-sm font-bold">TIPS</span>
@@ -416,7 +398,6 @@
     </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
 <footer class="bg-slate-900 text-slate-400 py-12">
     <div class="max-w-6xl mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
         <div>
@@ -457,22 +438,18 @@
     </div>
 </footer>
 
-<!-- ================= JAVASCRIPT (TOOL LOGIC - UNCHANGED) ================= -->
 <script>
-// Mobile Menu Toggle
 document.getElementById('mobileMenuBtn').addEventListener('click', function() {
     const menu = document.getElementById('mobileMenu');
     menu.classList.toggle('hidden');
 });
 
-// Close mobile menu on link click
 document.querySelectorAll('#mobileMenu a').forEach(link => {
     link.addEventListener('click', () => {
         document.getElementById('mobileMenu').classList.add('hidden');
     });
 });
 
-// --- TOOL LOGIC STARTS HERE ---
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const fileInput = document.getElementById("fileInput");
@@ -537,17 +514,6 @@ brightness.addEventListener("input", function() {
 contrast.addEventListener("input", function() {
     contrastValue.textContent = contrast.value;
 });
-
-function drawOriginal() {
-    if (!originalImage) return false;
-    const img = new Image();
-    img.onload = function() {
-        ctx.filter = "none";
-        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    };
-    img.src = originalImage;
-    return true;
-}
 
 document.getElementById("applyFilter").addEventListener("click", function() {
     if (!originalImage) {
